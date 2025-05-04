@@ -25,10 +25,48 @@
 }
 
 body {
+  opacity: 0; /* 初始隐藏内容 */
+  transition: opacity 0.5s ease-in;
   background: #fff;
   background-image: url(./asset/image/grid.svg);
   background-repeat: repeat;
   background-size: 300px 300px;
+}
+body.loaded {
+  opacity: 1;
+}
+
+#loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.5s;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #171717;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+body.loaded #loader {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .title {

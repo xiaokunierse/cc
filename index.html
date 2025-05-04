@@ -9,6 +9,9 @@
 </head>
 
 <body>
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
     <div class="title">
         <p>哈喽啊! 👋 我是CC</p>
     </div>
@@ -44,13 +47,13 @@
                 </div> -->
                 <img src="https://i.ibb.co/5CbYBBX/5.webp" alt="">
             </div>
-            <div class="img-box" >
+            <div class="img-box">
                 <!-- <div class="info">
                     <h3>One click triple connection</h3>
                 </div> -->
                 <img src="https://i.ibb.co/7tKxS99T/6.webp" alt="">
             </div>
-            <div class="img-box" >
+            <div class="img-box">
                 <!-- <div class="info">
                     <h3>One click triple connection</h3>
                 </div> -->
@@ -110,7 +113,7 @@
                 </div> -->
                 <img src="https://i.ibb.co/bMfv60FK/16.webp" alt="">
             </div>
-            <div class="img-box" >
+            <div class="img-box">
                 <!-- <div class="info">
                     <h3>One click triple connection</h3>
                 </div> -->
@@ -143,6 +146,7 @@
         </button>
     </div>
     <script>
+        document.body.classList.add('loading'); // 初始隐藏页面内容
         const imgListOne = document.querySelector('.img-list')
         // 获取图片类数组，并将其转化为数组
         let imgBoxList = Array.prototype.slice.call(document.querySelectorAll('.img-list .img-box'))
@@ -327,7 +331,34 @@
         // 鼠标悬停时停止自动轮播，移开时继续
         banner.addEventListener('mouseenter', stopAutoPlay);
         banner.addEventListener('mouseleave', startAutoPlay);
+        
+        function waitForImages() {
+            const images = document.querySelectorAll('img');
+            let loadedCount = 0;
 
+            images.forEach(img => {
+                if (img.complete) {
+                    loadedCount++;
+                } else {
+                    img.addEventListener('load', () => {
+                        loadedCount++;
+                        checkAllLoaded();
+                    });
+                    img.addEventListener('error', checkAllLoaded); // 即使有错误也继续
+                }
+            });
+
+            function checkAllLoaded() {
+                if (loadedCount >= images.length) {
+                    document.body.classList.add('loaded');
+                    document.body.style.opacity = 1; // 确保内容显示
+                }
+            }
+            checkAllLoaded(); // 处理已缓存的图片
+        }
+
+        // 初始化
+        setTimeout(waitForImages, 0); // 确保DOM加载后执行
         // 初始化自动轮播
         startAutoPlay();
     </script>
